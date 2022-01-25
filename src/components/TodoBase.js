@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import {StyleSheet, View, Text, Button, FlatList, TextInput, Pressable} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchTodoSuccess, addTodo, delTodo} from '../actions/todoActions';
+import {fetchTodoSuccess, addTodo, delTodo, getTodo} from '../actions/todoActions';
 import Item from './Item';
 
 const TodoBase = () => {
@@ -20,23 +20,11 @@ const TodoBase = () => {
     const onTextAdd = () => dispatch(addTodo({id, title}))
 
     useEffect(()=>{
-        //setLoading(true);
         const subscriber = firestore()
         .collection('todoList')
-        .onSnapshot((querySnapshot)=>{
-            const todos = [];
-            querySnapshot.forEach(documentSnapshot => {
-                todos.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                });
-            });
-            setTimeout(()=>{}, 1000);
-            dispatch(fetchTodoSuccess(todos))
-            //dispatch(fetchTodo())
-    })
-
-    return ()=> subscriber();
+        .onSnapshot(()=>{
+            dispatch(getTodo());
+        });
     },[])
 
     const renderItem = ({item}) => {

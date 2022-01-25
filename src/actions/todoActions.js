@@ -12,13 +12,11 @@ export const delTodo = (index) => {
     };
 };
 
-export const editTodo = (key, newId, newTitle) => {
-    console.log('key=', key, 'new Id = ', newId, 'new Title = ', newTitle)
+export const editTodo = (item) => {
+    console.log('key=', item.key, 'new Id = ', item.id, 'new Title = ', item.title)
     return {
         type: 'FETCH_UPDATE_TODO',
-        key: key,
-        newId: newId,
-        newTitle: newTitle,
+        payload: item,
     };
 };
 
@@ -36,3 +34,8 @@ export const fetchTodoSuccess = (todo) => {
     };
 };
 
+export const getTodo = () => {
+  return {
+      type: 'FETCH_GET_TODO',
+  }
+};

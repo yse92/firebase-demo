@@ -9,6 +9,7 @@ const initState = {
     userName:'',
     userData: [],
     todos: [],
+    loading: null,
 }
 
 const Reducer = (state = initState, action) => {
@@ -30,6 +31,9 @@ const Reducer = (state = initState, action) => {
         case "FETCH_DEL_TODO":
             return {...state}
         case "FETCH_UPDATE_TODO":
+            return {...state}
+        case "FETCH_GET_TODO":
+            console.log('Reducer todos')
             return {...state}
         case "FETCH_TODO_ERROR":
             return {...state, error: action.error}

@@ -8,7 +8,9 @@ const Item = ({ item }) => {
     /*--------------------------------dispatch--------------------------------*/
     const dispatch = useDispatch();
     const onTextDelete = () => dispatch(delTodo(item.key));
-    const onTextEdit = () => {dispatch(editTodo(item.key, id, title)); setModalVisible(false);}
+    const onTextEdit = () => {
+        dispatch(editTodo({key: item.key, id: id, title: title}));
+        setModalVisible(false);}
     /*--------------------------------useState--------------------------------*/
     const [modalVisible, setModalVisible] = useState(false);
     const [isSelected, setSelection] = useState(false);

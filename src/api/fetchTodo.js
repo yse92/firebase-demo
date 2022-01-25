@@ -1,5 +1,7 @@
 import React from 'react';
 import firestore from '@react-native-firebase/firestore';
+import {fetchTodoSuccess} from '../actions/todoActions';
+import {log} from 'react-native-reanimated';
 
 export const FetchAddTodo = async (item) => {
     //Работает:
@@ -27,18 +29,34 @@ export const FetchDelTodo = async (key) => {
         });
 };
 
-export const FetchEditTodo = async (key, newId, newTitle) => {
+export const FetchEditTodo = async (item) => {
     //Работает:
     //console.log("API>>>>>>>")
-    console.log('API *** key=', key, 'new Id = ', newId, 'new Title = ', newTitle)
+    console.log('API *** key = ', item.key, 'new Id = ', item.id, 'new Title = ', item.title)
     return await firestore()
         .collection('todoList')
-        .doc(key)
+        .doc(item.key)
         .update({
-            id: newId,
-            title: newTitle,
+            id: item.id,
+            title: item.title,
         })
         .then(() => {
             console.log('Item updated!');
         });
+};
+
+export const FetchGetTodo = async () => {
+     let todos = [];
+     await firestore()
+        .collection('todoList')
+         .get()
+         .then(querySnapshot => {
+             querySnapshot.forEach(documentSnapshot => {
+                 todos.push({
+                     ...documentSnapshot.data(),
+                     key: documentSnapshot.id,
+                 });
+             });
+         }).catch( e => console.log('error'))
+        return todos;
 };
